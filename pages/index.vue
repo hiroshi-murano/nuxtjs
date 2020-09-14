@@ -60,36 +60,20 @@
 
     <div class="container">
       <h1>こんにちは</h1>
-
-    
+      <button type="button" @click="func1" class="btn btn-primary">Primary</button>
+      <button type="button" @click="test_method" class="btn btn-primary">実行2</button>
 
       <table class="table">
         <thead class="thead-light">
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">タイトル</th>
+            <th scope="col">著者</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+          <tr v-for="book in books" v-bind:key="book.id">
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
           </tr>
         </tbody>
       </table>
@@ -99,6 +83,41 @@
 
 <script>
 export default {
+  data() {
+    return {
+      books: [
+        { id: 1, title: "坊っちゃん", author: "夏目漱石" },
+        { id: 2, title: "人間失格", author: "太宰治" },
+        { id: 3, title: "ノルウェイの森", author: "村上春樹" },
+      ],
+    };
+  },
+  methods: {
+    func1() {
+      this.books = [
+        { id: 1, title: "坊っちゃん3", author: "夏目漱石" },
+        { id: 2, title: "人間失格", author: "太宰治" },
+        { id: 3, title: "ノルウェイの森", author: "村上春樹" },
+      ];
+    },
+    func2() {
+      this.books = [
+        { id: 1, title: "坊っちゃん2", author: "夏目漱石" },
+        { id: 2, title: "人間失格", author: "太宰治" },
+        { id: 3, title: "ノルウェイの森", author: "村上春樹" },
+      ];
+    },
+    async test_method() {
+      const res = await this.$axios.$get("https://qiita.com/api/v2/items");
+      // console.log(res);
+      this.books=[];
+      for (const elem of res) {
+        this.books.push({ id: 1, title: elem.title, author: elem.url });
+        // console.log(elem.title);
+      }
+      return { axios_data: res };
+    },
+  },
   async asyncData({ $axios }) {
     // 取得先のURL
     const url = "https://qiita.com/api/v2/items";
