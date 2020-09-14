@@ -10,6 +10,8 @@
     "start": "nuxt start"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.12.2",
+    "bootstrap-vue": "^2.17.0",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
